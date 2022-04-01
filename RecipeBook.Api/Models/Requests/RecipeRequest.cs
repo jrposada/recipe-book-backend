@@ -1,13 +1,13 @@
-﻿namespace RecipeBook.Api.Models.Requests
-{
-    using System;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace RecipeBook.Api.Models.Requests
+{
     public class RecipeRequest
     {
+        [Required]
         public string Name { get; set; }
+
+        [Required]
         public string Description { get; set; }
-        public byte Score { get; set; }
-        public DateTime CreatedAt { set; get; }
-        public DateTime LastModified { set; get; }
     }
 }
