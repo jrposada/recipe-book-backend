@@ -11,8 +11,12 @@ namespace RecipeBook.Api
         public RecipeBookMapperProfile()
         {
             // Recipe
-            CreateMap<Recipe, RecipeRespose>();
-            CreateMap<RecipeRequest, Recipe>().ForMember(member => member.Id, options => options.Ignore());
+            CreateMap<Recipe, RecipeResponse>();
+            CreateMap<RecipeRequest, Recipe>()
+                .ForMember(member => member.Id, options => options.Ignore())
+                .ForMember(member => member.Score, options => options.Ignore())
+                .ForMember(member => member.CreatedAt, options => options.Ignore())
+                .ForMember(member => member.LastModified, options => options.Ignore());
         }
     }
 }

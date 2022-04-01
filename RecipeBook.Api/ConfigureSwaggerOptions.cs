@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace RecipeBook.Api
 {
@@ -25,6 +28,10 @@ namespace RecipeBook.Api
                 options.SwaggerDoc(
                     description.GroupName,
                     CreateVersionInfo(description));
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
             }
         }
 
