@@ -1,27 +1,29 @@
-﻿namespace RecipeBook.Business.Services
-{
-    using RecipeBook.Business.Definitions;
-    using RecipeBook.Repository.Models;
-    using System.Collections.Generic;
+﻿using RecipeBook.Business.Definitions;
+using RecipeBook.Repository.DAL;
+using RecipeBook.Repository.Models;
+using System.Collections.Generic;
 
+namespace RecipeBook.Business.Services
+{
     public class RecipesService : IRecipesService
     {
-        private readonly Dictionary<string, Recipe> recipes = new()
-        {
-            {"1", new Recipe() { Id = "1", Name = "Recipe 1", Description = "Perfect recipe for a sunny day!" } },
-            {"2", new Recipe() { Id = "2", Name = "Recipe 2", Description = "Perfect recipe for a rainy day!" } },
-        };
+        private readonly RecipeBookContext context;
 
-        public Recipe GetRecipe(string id)
+        public RecipesService(RecipeBookContext context)
         {
-            recipes.TryGetValue(id, out Recipe recipe);
+            this.context = context;
+        }
+
+         public Recipe GetRecipe(string id)
+        {
+            var recipe = context.Set<Recipe>().Find(id);
 
             return recipe;
         }
 
         public IEnumerable<Recipe> GetRecipes()
         {
-            return recipes.Values;
+            return context.Set<Recipe>();
         }
     }
 }

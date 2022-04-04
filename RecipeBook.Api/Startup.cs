@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using RecipeBook.Business.Definitions;
 using RecipeBook.Business.Services;
+using RecipeBook.Repository.DAL;
 
 namespace RecipeBook.Api
 {
@@ -24,6 +25,10 @@ namespace RecipeBook.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // DbContext
+            services.AddDbContext<RecipeBookContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("RecipeBookDbConnection")), ServiceLifetime.Scoped);
+
             // Mapper.
             var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile<RecipeBookMapperProfile>());
             mapperConfig.AssertConfigurationIsValid();
@@ -45,6 +50,8 @@ namespace RecipeBook.Api
                 setup.GroupNameFormat = "'v'VVV";
                 setup.SubstituteApiVersionInUrl = true;
             });
+
+            // Swagger
             services.AddSwaggerGen();
             services.ConfigureOptions<ConfigureSwaggerOptions>();
         }
@@ -52,6 +59,14 @@ namespace RecipeBook.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetService<RecipeBookContext>();
+
+                // Use migrations instead
+                context.Database.EnsureCreated();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

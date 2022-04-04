@@ -7,7 +7,7 @@ namespace RecipeBook.Api.Models.Responses
     public class RecipeResponse : RecipeRequest
     {
         [Required]
-        public string Id { get; set; }
+        public string ID { get; set; }
 
         [Required]
         public byte Score { get; set; }
