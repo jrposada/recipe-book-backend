@@ -2,10 +2,20 @@
   "name": "recipe-book-backend",
   "version": "1.0.0",
   "description": "1. Start docker services:\r ``` docker compose up -d ```\r 2. Open project in Visual Studio\r 3. Start \"IIS Express\"\r 4. Navigate to \"https://localhost:44301/swagger/index.html\" and check swagger is up and running.",
-  "main": "index.js",
-  "engines": {"node": "v20.2.0"},
+  "main": "dist/index.js",
+  "engines": {
+    "node": "v20.2.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf dist && tsc",
+    "preserve": "npm run build",
+    "serve": "cross-env NODE_ENV=development concurrently \"tsc --watch\" \"nodemon -q dist/index.js\"",
+    "prestart": "npm run build",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npm run lint:prettier && npm run lint:eslint",
+    "lint:prettier": "prettier . --check",
+    "lint:eslint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -15,5 +25,17 @@
   "bugs": {
     "url": "https://github.com/jrposada/recipe-book-backend/issues"
   },
-  "homepage": "https://github.com/jrposada/recipe-book-backend#readme"
+  "homepage": "https://github.com/jrposada/recipe-book-backend#readme",
+  "devDependencies": {
+    "@types/node": "^20.2.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
+    "@typescript-eslint/parser": "^5.59.9",
+    "concurrently": "^8.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.42.0",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.3"
+  }
 }
