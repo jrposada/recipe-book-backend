@@ -1,0 +1,19 @@
+{
+  "name": "recipe-book-backend",
+  "version": "1.0.0",
+  "description": "1. Start docker services:\r ``` docker compose up -d ```\r 2. Open project in Visual Studio\r 3. Start \"IIS Express\"\r 4. Navigate to \"https://localhost:44301/swagger/index.html\" and check swagger is up and running.",
+  "main": "index.js",
+  "engines": {"node": "v20.2.0"},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrposada/recipe-book-backend.git"
+  },
+  "author": "Javier Rodriguez Posada",
+  "bugs": {
+    "url": "https://github.com/jrposada/recipe-book-backend/issues"
+  },
+  "homepage": "https://github.com/jrposada/recipe-book-backend#readme"
+}
